@@ -1,0 +1,789 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to ComTrack complaint management portal.">
+    <title>Login | ComTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --primary: #2457d6;
+            --primary-dark: #1743b2;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e4e9f2;
+            --surface: #f6f8fc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--surface);
+            color: var(--text);
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            width: min(1160px, 92%);
+            min-height: 76px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            font-size: 22px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 23px;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: #465168;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .nav-actions a {
+            padding: 11px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text);
+            background: white;
+        }
+
+        .btn-primary {
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        /* Main layout */
+        .login-section {
+            min-height: calc(100vh - 150px);
+            padding: 55px 0 65px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 8% 15%, #e4edff 0, transparent 27%),
+                radial-gradient(circle at 93% 85%, #e7edff 0, transparent 25%),
+                var(--surface);
+        }
+
+        .login-layout {
+            width: min(1020px, 92%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 430px;
+            align-items: center;
+            gap: 65px;
+        }
+
+        /* Left content */
+        .login-intro {
+            padding: 10px 0;
+        }
+
+        .intro-badge {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 9px 13px;
+            border-radius: 30px;
+            background: #e5edff;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .6px;
+        }
+
+        .login-intro h1 {
+            max-width: 510px;
+            margin: 0 0 20px;
+            font-size: clamp(35px, 4vw, 49px);
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+        }
+
+        .login-intro h1 span {
+            color: var(--primary);
+        }
+
+        .login-intro > p {
+            max-width: 460px;
+            margin: 0 0 30px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .benefit-list {
+            display: grid;
+            gap: 17px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+        }
+
+        .benefit-icon {
+            display: grid;
+            place-items: center;
+            width: 37px;
+            height: 37px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .benefit h3 {
+            margin: 1px 0 5px;
+            font-size: 13px;
+        }
+
+        .benefit p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* Login card */
+        .login-card {
+            padding: 34px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: white;
+            box-shadow: 0 18px 55px rgba(31, 59, 112, .09);
+        }
+
+        .card-heading {
+            margin-bottom: 26px;
+        }
+
+        .card-heading h2 {
+            margin: 0 0 9px;
+            font-size: 25px;
+            letter-spacing: -.5px;
+        }
+
+        .card-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce2ed;
+            border-radius: 9px;
+            outline: none;
+            color: var(--text);
+            background: white;
+            font-family: inherit;
+            font-size: 13px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(36, 87, 214, .09);
+        }
+
+        .password-input {
+            padding-right: 65px !important;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            padding: 5px;
+            border: none;
+            background: transparent;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 2px 0 23px;
+            font-size: 11px;
+        }
+
+        .remember-option {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--muted);
+        }
+
+        .remember-option input {
+            accent-color: var(--primary);
+        }
+
+        .form-options a,
+        .register-link a {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .login-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .form-message.error {
+            display: block;
+            background: #fff0f0;
+            border: 1px solid #f0c7c7;
+            color: #a32828;
+        }
+
+        .form-message.info {
+            display: block;
+            background: #edf3ff;
+            border: 1px solid #dce7ff;
+            color: #1743b2;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin: 23px 0;
+            color: #9aa3b2;
+            font-size: 10px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: var(--border);
+        }
+
+        .register-link {
+            margin: 0;
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .security-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-top: 22px;
+            padding: 13px;
+            border-radius: 9px;
+            background: #f6f8fc;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .security-note span {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-bottom {
+            width: min(1160px, 92%);
+            margin: auto;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .nav-container {
+                gap: 14px;
+            }
+
+            .nav-links {
+                gap: 13px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .login-layout {
+                grid-template-columns: 1fr 400px;
+                gap: 35px;
+            }
+
+            .login-card {
+                padding: 28px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-wrap: wrap;
+                padding: 13px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-left: auto;
+                padding: 8px 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                background: #edf3ff;
+                color: var(--primary);
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                width: 100%;
+                flex: 0 0 100%;
+            }
+
+            .nav-links.open {
+                display: flex;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 17px;
+                padding: 15px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-actions.open {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .login-layout {
+                max-width: 500px;
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .login-intro {
+                text-align: center;
+            }
+
+            .login-intro h1,
+            .login-intro > p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .benefit-list {
+                max-width: 380px;
+                margin: auto;
+                text-align: left;
+            }
+
+            .login-section {
+                padding: 40px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-layout {
+                width: 92%;
+            }
+
+            .login-intro h1 {
+                font-size: 35px;
+            }
+
+            .login-card {
+                padding: 23px 19px;
+            }
+
+            .card-heading h2 {
+                font-size: 23px;
+            }
+
+            .form-options {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                line-height: 1.7;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">C</span>
+                <span>ComTrack</span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+            >☰</button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="features.html">Features</a>
+                <a href="how-it-works.html">How It Works</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn-outline active">Login</a>
+                <a href="submit.html" class="btn-primary">Submit Complaint</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <section class="login-section">
+
+            <div class="login-layout">
+
+                <!-- LEFT INTRODUCTION -->
+                <div class="login-intro">
+
+                    <span class="intro-badge">WELCOME TO COMTRACK</span>
+
+                    <h1>
+                        Your concerns.<br>
+                        <span>Your account.</span>
+                    </h1>
+
+                    <p>
+                        Sign in to access your complaint management portal.
+                        Keep track of reported issues and stay informed about
+                        the progress of your complaints.
+                    </p>
+
+                    <div class="benefit-list">
+
+                        <div class="benefit">
+                            <div class="benefit-icon">✓</div>
+                            <div>
+                                <h3>Track Your Complaints</h3>
+                                <p>Access complaint information using your reference details.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit">
+                            <div class="benefit-icon">↗</div>
+                            <div>
+                                <h3>Follow Progress</h3>
+                                <p>Understand the different stages of the resolution process.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit">
+                            <div class="benefit-icon">⌂</div>
+                            <div>
+                                <h3>One Central Portal</h3>
+                                <p>Find essential complaint services in one organized place.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <div class="login-card">
+
+                    <div class="card-heading">
+                        <h2>Sign in</h2>
+                        <p>Enter your account details to continue.</p>
+                    </div>
+
+                    <form id="loginForm">
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+
+                            <div class="input-wrapper">
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="password-input"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    id="togglePassword"
+                                    aria-label="Show password"
+                                >Show</button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="remember-option">
+                                <input type="checkbox" id="rememberMe">
+                                Remember me
+                            </label>
+
+                            <a href="#" id="forgotPassword">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="login-button">
+                            Sign In →
+                        </button>
+
+                        <div
+                            id="formMessage"
+                            class="form-message"
+                            role="status"
+                            aria-live="polite"
+                        ></div>
+
+                    </form>
+
+                    <div class="divider">OR</div>
+
+                    <p class="register-link">
+                        New to ComTrack?
+                        <a href="submit.html">Submit a complaint</a>
+                    </p>
+
+                    <div class="security-note">
+                        <span>ⓘ</span>
+                        <div>
+                            This is a frontend demonstration. Authentication,
+                            account recovery, and secure sessions require a
+                            connected backend.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>© <span id="currentYear"></span> ComTrack. All rights reserved.</p>
+            <p>Making complaint management more transparent.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const navActions = document.querySelector(".nav-actions");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = navLinks.classList.toggle("open");
+
+            navActions.classList.toggle("open", isOpen);
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        // Footer year
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+        // Show or hide password
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "Hide" : "Show";
+
+            togglePassword.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+        });
+
+        // Frontend-only login demonstration
+        const loginForm = document.getElementById("loginForm");
+        const formMessage = document.getElementById("formMessage");
+
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            formMessage.className = "form-message info";
+            formMessage.textContent =
+                "The login interface is working, but account authentication has not been connected yet. A backend is required to verify your credentials.";
+        });
+
+        // Frontend-only password recovery information
+        document.getElementById("forgotPassword").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            formMessage.className = "form-message info";
+            formMessage.textContent =
+                "Password recovery will be available after the authentication backend is implemented.";
+        });
+    </script>
+
+</body>
+</html>

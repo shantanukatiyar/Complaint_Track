@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ComTrack - A transparent and accessible platform for submitting and tracking public complaints.">
+    <title>ComTrack | Your Voice, Our Responsibility</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="header">
+        <nav class="navbar container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">C</span>
+                <span>Com<span class="logo-highlight">Track</span></span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle"
+                    aria-label="Toggle navigation" aria-expanded="false"
+                    aria-controls="navLinks">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+                <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="submit.html" class="btn btn-primary">Submit Complaint</a>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- ================= HERO SECTION ================= -->
+        <section class="hero">
+            <div class="hero-bg-shape shape-one"></div>
+            <div class="hero-bg-shape shape-two"></div>
+
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        <span class="status-dot"></span>
+                        A Smarter Way to Raise Your Voice
+                    </div>
+
+                    <h1>
+                        Your Voice.
+                        <span class="text-highlight">Your Rights.</span>
+                        Our Responsibility.
+                    </h1>
+
+                    <p class="hero-description">
+                        Report civic issues, track your complaints, and stay
+                        informed at every step. ComTrack brings citizens and
+                        authorities closer through a transparent complaint
+                        management experience.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="submit.html" class="btn btn-primary btn-large">
+                            Submit a Complaint
+                            <span aria-hidden="true">→</span>
+                        </a>
+
+                        <a href="track.html" class="btn btn-light btn-large">
+                            <span aria-hidden="true">⌕</span>
+                            Track Complaint
+                        </a>
+                    </div>
+
+                    <div class="hero-trust">
+                        <div class="trust-icon">✓</div>
+                        <p>Simple reporting <span>·</span> Transparent tracking <span>·</span> Citizen-focused</p>
+                    </div>
+
+                </div>
+
+
+                <!-- HERO VISUAL -->
+                <div class="hero-visual">
+
+                    <div class="visual-glow"></div>
+
+                    <div class="illustration-card">
+
+                        <div class="illustration-header">
+                            <div>
+                                <span class="small-label">COMTRACK PORTAL</span>
+                                <h3>Complaint Overview</h3>
+                            </div>
+                            <div class="illustration-icon">↗</div>
+                        </div>
+
+                        <div class="overview-stats">
+                            <div class="overview-stat">
+                                <span class="stat-icon blue">▤</span>
+                                <div>
+                                    <span class="stat-number">01</span>
+                                    <span class="stat-caption">Report issue</span>
+                                </div>
+                            </div>
+
+                            <div class="overview-stat">
+                                <span class="stat-icon orange">◷</span>
+                                <div>
+                                    <span class="stat-number">02</span>
+                                    <span class="stat-caption">Track progress</span>
+                                </div>
+                            </div>
+
+                            <div class="overview-stat">
+                                <span class="stat-icon green">✓</span>
+                                <div>
+                                    <span class="stat-number">03</span>
+                                    <span class="stat-caption">View resolution</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="complaint-preview">
+                            <div class="preview-top">
+                                <div>
+                                    <span class="small-label">SAMPLE COMPLAINT</span>
+                                    <h4>Streetlight not working</h4>
+                                </div>
+                                <span class="status-badge">In Progress</span>
+                            </div>
+
+                            <div class="preview-divider"></div>
+
+                            <div class="preview-bottom">
+                                <div class="preview-id">
+                                    <span class="preview-id-icon">#</span>
+                                    <div>
+                                        <span class="small-label">Complaint ID</span>
+                                        <strong>CT-EXAMPLE</strong>
+                                    </div>
+                                </div>
+
+                                <a href="track.html" class="preview-link" aria-label="Go to complaint tracking">→</a>
+                            </div>
+                        </div>
+
+                        <div class="floating-note">
+                            <span class="floating-check">✓</span>
+                            <div>
+                                <strong>Stay informed</strong>
+                                <p>Follow every update</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= VALUE STRIP ================= -->
+        <section class="value-strip">
+            <div class="container value-grid">
+
+                <div class="value-item">
+                    <span class="value-icon">◎</span>
+                    <div>
+                        <h3>Easy Reporting</h3>
+                        <p>Raise issues without unnecessary complexity.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <span class="value-icon">◷</span>
+                    <div>
+                        <h3>Track Progress</h3>
+                        <p>Check the status of your complaint.</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <span class="value-icon">♧</span>
+                    <div>
+                        <h3>Better Accountability</h3>
+                        <p>Make complaint handling more transparent.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= ABOUT SECTION ================= -->
+        <section class="section about-section" id="about">
+            <div class="container about-grid">
+
+                <div class="about-visual">
+                    <div class="about-main-card">
+                        <span class="about-symbol">C</span>
+                        <h3>Every concern deserves attention.</h3>
+                        <p>A simple connection between citizens, complaints, and action.</p>
+                    </div>
+
+                    <div class="about-mini-card">
+                        <span class="mini-card-icon">✓</span>
+                        <div>
+                            <strong>Clear updates</strong>
+                            <p>Know where things stand.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-content">
+                    <span class="section-tag">ABOUT COMTRACK</span>
+
+                    <h2>
+                        Turning public concerns into
+                        <span class="text-highlight">visible action.</span>
+                    </h2>
+
+                    <p>
+                        ComTrack is designed to make complaint reporting and
+                        follow-up easier for citizens. Instead of being left
+                        wondering what happens after submitting an issue,
+                        users can access a structured process for reporting
+                        concerns and checking their progress.
+                    </p>
+
+                    <p>
+                        Our goal is to support clearer communication,
+                        organized complaint handling, and a more accessible
+                        public grievance experience.
+                    </p>
+
+                    <ul class="check-list">
+                        <li><span>✓</span> A clear complaint submission process</li>
+                        <li><span>✓</span> Convenient complaint status tracking</li>
+                        <li><span>✓</span> Organized complaint information</li>
+                        <li><span>✓</span> A citizen-first digital experience</li>
+                    </ul>
+
+                    <a href="about.html" class="text-link">
+                        Learn more about us <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= FEATURES SECTION ================= -->
+        <section class="section features-section" id="features">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-tag">WHAT WE OFFER</span>
+                    <h2>Everything you need to <span class="text-highlight">stay informed.</span></h2>
+                    <p>
+                        A straightforward platform to report issues and
+                        follow their progress.
+                    </p>
+                </div>
+
+                <div class="features-grid">
+
+                    <article class="feature-card">
+                        <div class="feature-icon icon-blue">▤</div>
+                        <span class="feature-number">01</span>
+                        <h3>Easy Complaint Submission</h3>
+                        <p>
+                            Submit your concern through a structured form
+                            with relevant details and supporting information.
+                        </p>
+                        <a href="submit.html" class="feature-link">
+                            Submit an issue <span>→</span>
+                        </a>
+                    </article>
+
+                    <article class="feature-card featured-card">
+                        <div class="feature-icon icon-orange">⌕</div>
+                        <span class="feature-number">02</span>
+                        <h3>Complaint Tracking</h3>
+                        <p>
+                            Use your complaint reference number to check
+                            its current status and available updates.
+                        </p>
+                        <a href="track.html" class="feature-link">
+                            Track a complaint <span>→</span>
+                        </a>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon icon-green">▦</div>
+                        <span class="feature-number">03</span>
+                        <h3>Organized Management</h3>
+                        <p>
+                            Provide administrators with a structured view
+                            for reviewing and managing submitted complaints.
+                        </p>
+                        <a href="login.html" class="feature-link">
+                            Access portal <span>→</span>
+                        </a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+        <section class="section process-section" id="how-it-works">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-tag">HOW IT WORKS</span>
+                    <h2>Three steps. <span class="text-highlight">One clearer process.</span></h2>
+                    <p>Getting your concern registered and following its progress should be simple.</p>
+                </div>
+
+                <div class="process-grid">
+
+                    <div class="process-step">
+                        <div class="process-number">01</div>
+                        <div class="process-icon">✎</div>
+                        <h3>Report the issue</h3>
+                        <p>
+                            Describe the problem, select the relevant category,
+                            and provide the necessary details.
+                        </p>
+                    </div>
+
+                    <div class="process-connector" aria-hidden="true">→</div>
+
+                    <div class="process-step">
+                        <div class="process-number">02</div>
+                        <div class="process-icon">⌕</div>
+                        <h3>Track your complaint</h3>
+                        <p>
+                            Use your reference number to check the current
+                            status and any recorded updates.
+                        </p>
+                    </div>
+
+                    <div class="process-connector" aria-hidden="true">→</div>
+
+                    <div class="process-step">
+                        <div class="process-number">03</div>
+                        <div class="process-icon">✓</div>
+                        <h3>Follow the outcome</h3>
+                        <p>
+                            Review progress and check for a resolution
+                            update when one becomes available.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="process-cta">
+                    <div>
+                        <h3>Have an issue to report?</h3>
+                        <p>Start by submitting your complaint through ComTrack.</p>
+                    </div>
+                    <a href="submit.html" class="btn btn-primary">
+                        Get Started <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CALL TO ACTION ================= -->
+        <section class="cta-section">
+            <div class="container cta-content">
+
+                <div class="cta-text">
+                    <span class="cta-eyebrow">YOUR CONCERN MATTERS</span>
+                    <h2>Make your voice part of the solution.</h2>
+                    <p>
+                        Report an issue or check an existing complaint.
+                        Take the next step with ComTrack.
+                    </p>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="submit.html" class="btn btn-white btn-large">
+                        Submit a Complaint <span>→</span>
+                    </a>
+                    <a href="track.html" class="btn btn-cta-outline btn-large">
+                        Track Complaint
+                    </a>
+                </div>
+
+                <div class="cta-decoration decoration-one"></div>
+                <div class="cta-decoration decoration-two"></div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+                    <a href="index.html" class="logo footer-logo">
+                        <span class="logo-icon">C</span>
+                        <span>Com<span class="logo-highlight">Track</span></span>
+                    </a>
+
+                    <p>
+                        A citizen-focused platform designed to simplify
+                        complaint reporting and improve visibility into
+                        complaint progress.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="features.html">Features</a>
+                    <a href="how-it-works.html">How It Works</a>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Actions</h4>
+                    <a href="submit.html">Submit Complaint</a>
+                    <a href="track.html">Track Complaint</a>
+                    <a href="login.html">Login</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Get Started</h4>
+                    <p class="footer-small-text">
+                        Ready to report an issue or follow an existing complaint?
+                    </p>
+                    <a href="submit.html" class="footer-cta">
+                        Raise a Concern <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© <span id="currentYear"></span> ComTrack. All rights reserved.</p>
+                <p>Designed for accessible and transparent complaint management.</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

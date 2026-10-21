@@ -1,0 +1,1091 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track complaint progress and view complaint status on ComTrack.">
+    <title>Track Complaint | ComTrack</title>
+
+    <style>
+        :root {
+            --primary: #2457d6;
+            --primary-dark: #1743b2;
+            --primary-light: #edf3ff;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e4e9f2;
+            --surface: #f6f8fc;
+            --white: #ffffff;
+            --green: #168244;
+            --orange: #b96b12;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            width: min(1160px, 92%);
+            min-height: 76px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 23px;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: #465168;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button {
+            padding: 11px 15px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .nav-button.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 28px 0 48px;
+            background:
+                radial-gradient(circle at 90% 20%, #e7edff 0, transparent 28%),
+                linear-gradient(120deg, #edf3ff, #ffffff 68%, #f5f7ff);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 9px 14px;
+            margin-bottom: 17px;
+            border-radius: 30px;
+            background: #dfe9ff;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .6px;
+        }
+
+        .hero h1 {
+            margin: 0 0 15px;
+            font-size: clamp(34px, 4.4vw, 48px);
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content > p {
+            max-width: 560px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* TRACKING SEARCH */
+        .tracking-section {
+            padding: 38px 0 60px;
+        }
+
+        .tracking-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 290px;
+            gap: 24px;
+            align-items: start;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .tracking-main {
+            min-width: 0;
+        }
+
+        .search-card {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 12px 35px rgba(31, 59, 112, .05);
+        }
+
+        .card-heading {
+            margin-bottom: 22px;
+        }
+
+        .card-heading h2 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .card-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .search-form label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-row input {
+            flex: 1;
+            min-width: 0;
+            padding: 14px;
+            border: 1px solid #dce2ed;
+            border-radius: 9px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .search-row input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(36, 87, 214, .08);
+        }
+
+        .search-row button {
+            padding: 0 19px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .search-row button:hover {
+            background: var(--primary-dark);
+        }
+
+        .search-hint {
+            margin: 12px 0 0;
+            color: #8791a3;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .search-error {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border: 1px solid #f0c7c7;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #a32828;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* RESULT */
+        .result-section {
+            display: none;
+            margin-top: 24px;
+        }
+
+        .result-section.visible {
+            display: block;
+        }
+
+        .result-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 12px 35px rgba(31, 59, 112, .04);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-header h2 {
+            margin: 0 0 8px;
+            font-size: 19px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .result-reference {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 8px 11px;
+            border-radius: 30px;
+            background: #fff3dc;
+            color: var(--orange);
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-badge.resolved {
+            background: #e8f8ed;
+            color: var(--green);
+        }
+
+        .status-badge.submitted {
+            background: #edf3ff;
+            color: var(--primary);
+        }
+
+        .result-body {
+            padding: 25px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 18px;
+        }
+
+        .detail-label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .detail-value {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .description-box {
+            margin-top: 23px;
+            padding: 16px;
+            border-radius: 10px;
+            background: #f7f9fd;
+        }
+
+        .description-box h3 {
+            margin: 0 0 8px;
+            font-size: 12px;
+        }
+
+        .description-box p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        /* TIMELINE */
+        .timeline-section {
+            padding: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .timeline-section h3 {
+            margin: 0 0 23px;
+            font-size: 15px;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 0;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 30px minmax(0, 1fr);
+            gap: 13px;
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 27px;
+            height: 27px;
+            border: 2px solid #d9dfeb;
+            border-radius: 50%;
+            background: white;
+            color: #8b95a7;
+            font-size: 11px;
+            z-index: 1;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 27px;
+            bottom: 0;
+            width: 2px;
+            background: #e1e6ef;
+        }
+
+        .timeline-item.completed .timeline-marker {
+            border-color: var(--green);
+            background: var(--green);
+            color: white;
+        }
+
+        .timeline-item.completed:not(:last-child)::before {
+            background: #9edbb1;
+        }
+
+        .timeline-item.current .timeline-marker {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 0 4px #edf3ff;
+        }
+
+        .timeline-item h4 {
+            margin: 3px 0 6px;
+            font-size: 12px;
+        }
+
+        .timeline-item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .timeline-item small {
+            display: block;
+            margin-top: 6px;
+            color: #929bad;
+            font-size: 10px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            display: grid;
+            gap: 17px;
+        }
+
+        .side-card {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .side-icon {
+            display: grid;
+            place-items: center;
+            width: 39px;
+            height: 39px;
+            margin-bottom: 13px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .side-card h3 {
+            margin: 0 0 9px;
+            font-size: 14px;
+        }
+
+        .side-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .side-card a {
+            display: inline-block;
+            margin-top: 14px;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .demo-card {
+            background: #f0f5ff;
+            border-color: #dce7ff;
+        }
+
+        .demo-card .side-icon {
+            background: white;
+        }
+
+        /* FOOTER */
+        .footer {
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 21px 0;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1050px) {
+            .nav-container {
+                gap: 14px;
+            }
+
+            .nav-links {
+                gap: 13px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .nav-button {
+                padding: 10px 12px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-wrap: wrap;
+                padding: 13px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-left: auto;
+                padding: 8px 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                background: var(--primary-light);
+                color: var(--primary);
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                width: 100%;
+                flex: 0 0 100%;
+            }
+
+            .nav-links.open {
+                display: flex;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 17px;
+                padding: 15px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-actions.open {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .tracking-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .demo-card {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .hero {
+                padding-bottom: 35px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .tracking-section {
+                padding: 25px 0 40px;
+            }
+
+            .search-card {
+                padding: 21px 17px;
+            }
+
+            .search-row {
+                flex-direction: column;
+            }
+
+            .search-row button {
+                min-height: 45px;
+            }
+
+            .result-header {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .result-body,
+            .timeline-section {
+                padding: 20px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-card {
+                grid-column: auto;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">C</span>
+                <span>ComTrack</span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+            >☰</button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="features.html">Features</a>
+                <a href="how-it-works.html">How It Works</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="nav-button">Login</a>
+                <a href="submit.html" class="nav-button primary">Submit Complaint</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- PAGE HERO -->
+        <section class="hero">
+            <div class="container">
+
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Track Complaint</span>
+                </div>
+
+                <div class="hero-content">
+                    <span class="eyebrow">COMPLAINT STATUS PORTAL</span>
+
+                    <h1>Track Your Complaint.<br><span>Stay Informed.</span></h1>
+
+                    <p>
+                        Enter your complaint reference number to view its current
+                        status, reported details, and resolution journey.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TRACKING CONTENT -->
+        <section class="tracking-section">
+            <div class="container">
+
+                <div class="tracking-layout">
+
+                    <div class="tracking-main">
+
+                        <!-- SEARCH -->
+                        <div class="search-card">
+                            <div class="card-heading">
+                                <h2>Find Your Complaint</h2>
+                                <p>
+                                    Use the reference number associated with your
+                                    complaint to look up its status.
+                                </p>
+                            </div>
+
+                            <form id="trackingForm" class="search-form">
+                                <label for="referenceNumber">
+                                    Complaint Reference Number
+                                </label>
+
+                                <div class="search-row">
+                                    <input
+                                        type="text"
+                                        id="referenceNumber"
+                                        name="referenceNumber"
+                                        placeholder="e.g. CT-DEMO-12345678"
+                                        autocomplete="off"
+                                        required
+                                    >
+
+                                    <button type="submit">Track Status →</button>
+                                </div>
+
+                                <p class="search-hint">
+                                    Demo reference: <strong>CT-DEMO-12345678</strong>.
+                                    This prototype currently recognizes only this sample record.
+                                </p>
+
+                                <div
+                                    class="search-error"
+                                    id="searchError"
+                                    role="alert"
+                                ></div>
+                            </form>
+                        </div>
+
+                        <!-- RESULTS -->
+                        <section class="result-section" id="resultSection">
+
+                            <div class="result-card">
+
+                                <div class="result-header">
+                                    <div>
+                                        <h2 id="complaintTitle">Road damage near main road</h2>
+
+                                        <div class="result-reference">
+                                            Reference: <strong id="resultReference"></strong>
+                                        </div>
+                                    </div>
+
+                                    <span class="status-badge" id="statusBadge">
+                                        In Progress
+                                    </span>
+                                </div>
+
+                                <div class="result-body">
+
+                                    <div class="detail-grid">
+
+                                        <div>
+                                            <span class="detail-label">Category</span>
+                                            <span class="detail-value" id="resultCategory"></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="detail-label">Priority</span>
+                                            <span class="detail-value" id="resultPriority"></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="detail-label">Location</span>
+                                            <span class="detail-value" id="resultLocation"></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="detail-label">Date Reported</span>
+                                            <span class="detail-value" id="resultDate"></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="detail-label">Last Updated</span>
+                                            <span class="detail-value" id="resultUpdated"></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="detail-label">Assigned Department</span>
+                                            <span class="detail-value" id="resultDepartment"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="description-box">
+                                        <h3>Complaint Description</h3>
+                                        <p id="resultDescription"></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="timeline-section">
+                                    <h3>Resolution Timeline</h3>
+                                    <div class="timeline" id="timeline"></div>
+                                </div>
+
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- SIDEBAR -->
+                    <aside class="sidebar">
+
+                        <div class="side-card">
+                            <div class="side-icon">⌕</div>
+                            <h3>Where can I find my reference?</h3>
+                            <p>
+                                Your complaint reference number would normally be
+                                provided after a successful submission. In this
+                                frontend demo, use the sample reference shown in
+                                the search box.
+                            </p>
+                            <a href="submit.html">Submit a complaint →</a>
+                        </div>
+
+                        <div class="side-card">
+                            <div class="side-icon">↻</div>
+                            <h3>Understand the Status</h3>
+                            <p>
+                                Submitted means the report has been received.
+                                In Progress means it is being reviewed or addressed.
+                                Resolved means the reported issue has been marked
+                                as resolved.
+                            </p>
+                        </div>
+
+                        <div class="side-card demo-card">
+                            <div class="side-icon">ⓘ</div>
+                            <h3>Demonstration Data</h3>
+                            <p>
+                                This page uses a sample complaint stored in the
+                                frontend code. It does not retrieve live records
+                                from a database.
+                            </p>
+                        </div>
+
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear"></span> ComTrack. All rights reserved.
+                </p>
+                <p>Making complaint management more transparent.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const navActions = document.querySelector(".nav-actions");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = navLinks.classList.toggle("open");
+
+            navActions.classList.toggle("open", isOpen);
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        // Footer year
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+        // Sample data for the frontend demonstration
+        const sampleComplaint = {
+            reference: "CT-DEMO-12345678",
+            title: "Road damage near main road",
+            category: "Roads & Transport",
+            priority: "High",
+            location: "Main Road, Demo Locality",
+            date: "15 October 2026",
+            updated: "18 October 2026",
+            department: "Road Maintenance Department",
+            description:
+                "A damaged section of road has been reported near the main road. The damaged surface may cause inconvenience to commuters and requires inspection.",
+            status: "In Progress",
+            timeline: [
+                {
+                    title: "Complaint Submitted",
+                    description: "The complaint was recorded in the demonstration system.",
+                    date: "15 October 2026",
+                    completed: true
+                },
+                {
+                    title: "Complaint Under Review",
+                    description: "The report was reviewed for the demonstration timeline.",
+                    date: "16 October 2026",
+                    completed: true
+                },
+                {
+                    title: "Action In Progress",
+                    description: "The sample record indicates that action is in progress.",
+                    date: "18 October 2026",
+                    completed: false,
+                    current: true
+                },
+                {
+                    title: "Complaint Resolved",
+                    description: "This stage will be updated when the issue is marked resolved.",
+                    date: "Pending",
+                    completed: false
+                }
+            ]
+        };
+
+        const trackingForm = document.getElementById("trackingForm");
+        const referenceInput = document.getElementById("referenceNumber");
+        const searchError = document.getElementById("searchError");
+        const resultSection = document.getElementById("resultSection");
+
+        // Safely insert text into page elements
+        function setText(id, value) {
+            document.getElementById(id).textContent = value;
+        }
+
+        function renderTimeline(items) {
+            const timeline = document.getElementById("timeline");
+            timeline.replaceChildren();
+
+            items.forEach(function (item) {
+                const row = document.createElement("div");
+                row.className = "timeline-item";
+
+                if (item.completed) {
+                    row.classList.add("completed");
+                }
+
+                if (item.current) {
+                    row.classList.add("current");
+                }
+
+                const marker = document.createElement("div");
+                marker.className = "timeline-marker";
+                marker.textContent = item.completed ? "✓" : "•";
+
+                const content = document.createElement("div");
+
+                const title = document.createElement("h4");
+                title.textContent = item.title;
+
+                const description = document.createElement("p");
+                description.textContent = item.description;
+
+                const date = document.createElement("small");
+                date.textContent = item.date;
+
+                content.append(title, description, date);
+                row.append(marker, content);
+                timeline.appendChild(row);
+            });
+        }
+
+        function showComplaint(complaint) {
+            setText("complaintTitle", complaint.title);
+            setText("resultReference", complaint.reference);
+            setText("resultCategory", complaint.category);
+            setText("resultPriority", complaint.priority);
+            setText("resultLocation", complaint.location);
+            setText("resultDate", complaint.date);
+            setText("resultUpdated", complaint.updated);
+            setText("resultDepartment", complaint.department);
+            setText("resultDescription", complaint.description);
+            setText("statusBadge", complaint.status);
+
+            const statusBadge = document.getElementById("statusBadge");
+            statusBadge.className = "status-badge";
+
+            if (complaint.status === "Resolved") {
+                statusBadge.classList.add("resolved");
+            } else if (complaint.status === "Submitted") {
+                statusBadge.classList.add("submitted");
+            }
+
+            renderTimeline(complaint.timeline);
+
+            searchError.style.display = "none";
+            resultSection.classList.add("visible");
+
+            resultSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+        trackingForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const reference = referenceInput.value.trim().toUpperCase();
+
+            resultSection.classList.remove("visible");
+            searchError.style.display = "none";
+
+            if (!reference) {
+                searchError.textContent =
+                    "Please enter your complaint reference number.";
+                searchError.style.display = "block";
+                return;
+            }
+
+            if (reference === sampleComplaint.reference) {
+                showComplaint(sampleComplaint);
+            } else {
+                searchError.textContent =
+                    "No matching sample complaint was found. Please check the reference number and try CT-DEMO-12345678.";
+                searchError.style.display = "block";
+            }
+        });
+    </script>
+
+</body>
+</html>

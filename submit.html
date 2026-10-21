@@ -1,0 +1,1162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submit and register a complaint using the ComTrack complaint management portal.">
+    <title>Submit Complaint | ComTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --primary: #2457d6;
+            --primary-dark: #1743b2;
+            --primary-light: #edf3ff;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e4e9f2;
+            --surface: #f6f8fc;
+            --white: #ffffff;
+            --success: #168244;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--surface);
+            color: var(--text);
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: relative;
+            z-index: 100;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            width: min(1160px, 92%);
+            min-height: 76px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            font-size: 22px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 23px;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: #465168;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .nav-actions a {
+            padding: 11px 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .btn-outline {
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: 1px solid var(--primary);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        /* PAGE HEADER */
+        .page-hero {
+            padding: 28px 0 38px;
+            background: linear-gradient(120deg, #edf3ff, #ffffff 65%, #f0f4ff);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .container {
+            width: min(1160px, 92%);
+            margin: auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 27px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .hero-content {
+            max-width: 720px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 8px 13px;
+            border-radius: 30px;
+            background: #e5edff;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .6px;
+        }
+
+        .hero-content h1 {
+            margin: 0 0 14px;
+            font-size: clamp(32px, 4vw, 44px);
+            line-height: 1.2;
+            letter-spacing: -1.3px;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            max-width: 570px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* FORM SECTION */
+        .form-section {
+            padding: 42px 0 65px;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            align-items: start;
+            gap: 25px;
+            max-width: 1030px;
+            margin: auto;
+        }
+
+        .complaint-card {
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 12px 35px rgba(31, 59, 112, .045);
+        }
+
+        .card-heading {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-heading h2 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .card-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 0 18px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .form-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .section-number {
+            display: grid;
+            place-items: center;
+            width: 27px;
+            height: 27px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 11px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            min-width: 0;
+            margin-bottom: 18px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .required {
+            color: #d14343;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            padding: 12px 13px;
+            border: 1px solid #dce2ed;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(36, 87, 214, .08);
+        }
+
+        .form-group textarea {
+            min-height: 125px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .field-hint {
+            display: block;
+            margin-top: 7px;
+            color: #8993a5;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .file-upload {
+            padding: 22px;
+            border: 1px dashed #b8c8e8;
+            border-radius: 10px;
+            background: #f8faff;
+            text-align: center;
+        }
+
+        .upload-icon {
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 25px;
+        }
+
+        .file-upload label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .file-upload input {
+            max-width: 100%;
+            margin: 10px auto 0;
+            font-size: 11px;
+        }
+
+        .file-upload p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .checkbox-row input {
+            margin-top: 3px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-row a {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .submit-button,
+        .reset-button {
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .submit-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .reset-button {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .form-message.success {
+            display: block;
+            border: 1px solid #bce6ca;
+            background: #effbf3;
+            color: #166534;
+        }
+
+        .form-message.error {
+            display: block;
+            border: 1px solid #f0c7c7;
+            background: #fff0f0;
+            color: #a32828;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            display: grid;
+            gap: 18px;
+        }
+
+        .side-card {
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .side-icon {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            margin-bottom: 15px;
+            border-radius: 11px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 19px;
+        }
+
+        .side-card h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+        }
+
+        .side-card > p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .steps-list {
+            display: grid;
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+        .step-number {
+            display: grid;
+            place-items: center;
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .step-item h4 {
+            margin: 1px 0 5px;
+            font-size: 12px;
+        }
+
+        .step-item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .notice-card {
+            border-color: #dce7ff;
+            background: #f0f5ff;
+        }
+
+        .notice-card .side-icon {
+            background: white;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: white;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 21px 0;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1050px) {
+            .nav-container {
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .nav-actions a {
+                padding: 10px 12px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-wrap: wrap;
+                padding: 13px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-left: auto;
+                padding: 8px 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                background: var(--primary-light);
+                color: var(--primary);
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+                width: 100%;
+                flex: 0 0 100%;
+            }
+
+            .nav-links.open {
+                display: flex;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 17px;
+                padding: 15px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-actions.open {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .form-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .notice-card {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .page-hero {
+                padding: 23px 0 30px;
+            }
+
+            .hero-content h1 {
+                font-size: 33px;
+            }
+
+            .form-section {
+                padding: 28px 0 42px;
+            }
+
+            .complaint-card {
+                padding: 21px 17px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .notice-card {
+                grid-column: auto;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .submit-button,
+            .reset-button {
+                width: 100%;
+                min-height: 45px;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">C</span>
+                <span>ComTrack</span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+            >☰</button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="features.html">Features</a>
+                <a href="how-it-works.html">How It Works</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn-outline">Login</a>
+                <a href="submit.html" class="btn-primary active">Submit Complaint</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- PAGE HEADER -->
+        <section class="page-hero">
+            <div class="container">
+
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span>/</span>
+                    <span>Submit Complaint</span>
+                </div>
+
+                <div class="hero-content">
+                    <span class="eyebrow">YOUR VOICE MATTERS</span>
+
+                    <h1>Report an Issue.<br><span>Make a Difference.</span></h1>
+
+                    <p>
+                        Provide the details of the issue you have encountered.
+                        Clear information helps the responsible team understand
+                        the problem and take appropriate action.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- COMPLAINT FORM -->
+        <section class="form-section">
+            <div class="container">
+
+                <div class="form-layout">
+
+                    <div class="complaint-card">
+
+                        <div class="card-heading">
+                            <h2>Complaint Registration</h2>
+                            <p>
+                                Fields marked with <span class="required">*</span>
+                                are required.
+                            </p>
+                        </div>
+
+                        <form id="complaintForm">
+
+                            <!-- SECTION 1 -->
+                            <h3 class="form-section-title">
+                                <span class="section-number">01</span>
+                                Your Information
+                            </h3>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="fullName">
+                                        Full Name <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="fullName"
+                                        name="fullName"
+                                        placeholder="Enter your full name"
+                                        maxlength="100"
+                                        autocomplete="name"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">
+                                        Email Address <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="you@example.com"
+                                        maxlength="150"
+                                        autocomplete="email"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="phone">Contact Number (Optional)</label>
+
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        placeholder="Enter your contact number"
+                                        maxlength="20"
+                                        autocomplete="tel"
+                                    >
+                                </div>
+
+                            </div>
+
+                            <!-- SECTION 2 -->
+                            <h3 class="form-section-title">
+                                <span class="section-number">02</span>
+                                Complaint Details
+                            </h3>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="category">
+                                        Complaint Category <span class="required">*</span>
+                                    </label>
+
+                                    <select id="category" name="category" required>
+                                        <option value="">Select a category</option>
+                                        <option value="Roads & Transport">Roads & Transport</option>
+                                        <option value="Water Supply">Water Supply</option>
+                                        <option value="Electricity">Electricity</option>
+                                        <option value="Sanitation & Waste">Sanitation & Waste</option>
+                                        <option value="Public Safety">Public Safety</option>
+                                        <option value="Public Facilities">Public Facilities</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="priority">
+                                        Priority <span class="required">*</span>
+                                    </label>
+
+                                    <select id="priority" name="priority" required>
+                                        <option value="">Select priority</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+
+                                    <span class="field-hint">
+                                        Select based on the impact of the issue.
+                                    </span>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="subject">
+                                        Complaint Subject <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="subject"
+                                        name="subject"
+                                        placeholder="Briefly describe the issue"
+                                        maxlength="150"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="location">
+                                        Location of the Issue <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="location"
+                                        name="location"
+                                        placeholder="Area, street, landmark, or locality"
+                                        maxlength="250"
+                                        required
+                                    >
+
+                                    <span class="field-hint">
+                                        Include a useful landmark to help identify the location.
+                                    </span>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="description">
+                                        Detailed Description <span class="required">*</span>
+                                    </label>
+
+                                    <textarea
+                                        id="description"
+                                        name="description"
+                                        placeholder="Explain what happened, where it happened, and any relevant details..."
+                                        minlength="20"
+                                        maxlength="2000"
+                                        required
+                                    ></textarea>
+
+                                    <span class="field-hint">
+                                        <span id="characterCount">0</span>/2000 characters
+                                        (minimum 20).
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <!-- SECTION 3 -->
+                            <h3 class="form-section-title">
+                                <span class="section-number">03</span>
+                                Supporting Evidence
+                            </h3>
+
+                            <div class="form-group">
+                                <div class="file-upload">
+                                    <div class="upload-icon">↑</div>
+
+                                    <label for="evidence">
+                                        Attach an Image or Document (Optional)
+                                    </label>
+
+                                    <p>
+                                        Add relevant evidence to help explain the issue.
+                                        Accepted: JPG, PNG, PDF. Maximum 5 MB per file.
+                                    </p>
+
+                                    <input
+                                        type="file"
+                                        id="evidence"
+                                        name="evidence"
+                                        accept=".jpg,.jpeg,.png,.pdf"
+                                        multiple
+                                    >
+
+                                    <p id="fileList">No files selected.</p>
+                                </div>
+                            </div>
+
+                            <label class="checkbox-row">
+                                <input type="checkbox" id="confirmDetails" required>
+
+                                <span>
+                                    I confirm that the information provided is accurate
+                                    to the best of my knowledge and understand that it
+                                    will be used to process this complaint.
+                                    <span class="required">*</span>
+                                </span>
+                            </label>
+
+                            <div class="form-actions">
+                                <button type="submit" class="submit-button">
+                                    Submit Complaint →
+                                </button>
+
+                                <button type="reset" class="reset-button">
+                                    Clear Form
+                                </button>
+                            </div>
+
+                            <div
+                                class="form-message"
+                                id="formMessage"
+                                role="status"
+                                aria-live="polite"
+                            ></div>
+
+                        </form>
+                    </div>
+
+                    <!-- SIDEBAR -->
+                    <aside class="sidebar">
+
+                        <div class="side-card">
+                            <div class="side-icon">✓</div>
+
+                            <h3>How It Works</h3>
+
+                            <p>
+                                Follow these steps to register your complaint
+                                through the ComTrack interface.
+                            </p>
+
+                            <div class="steps-list">
+
+                                <div class="step-item">
+                                    <span class="step-number">1</span>
+                                    <div>
+                                        <h4>Provide Details</h4>
+                                        <p>Enter your information and describe the issue.</p>
+                                    </div>
+                                </div>
+
+                                <div class="step-item">
+                                    <span class="step-number">2</span>
+                                    <div>
+                                        <h4>Submit Information</h4>
+                                        <p>Review the details before submitting the form.</p>
+                                    </div>
+                                </div>
+
+                                <div class="step-item">
+                                    <span class="step-number">3</span>
+                                    <div>
+                                        <h4>Track Progress</h4>
+                                        <p>Use your complaint reference to follow its status once tracking is connected.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="side-card">
+                            <div class="side-icon">ⓘ</div>
+
+                            <h3>Tips for a Better Report</h3>
+
+                            <p>
+                                Describe the issue clearly, provide the correct
+                                location, select the relevant category, and attach
+                                useful evidence where available.
+                            </p>
+                        </div>
+
+                        <div class="side-card notice-card">
+                            <div class="side-icon">!</div>
+
+                            <h3>Prototype Notice</h3>
+
+                            <p>
+                                This page currently demonstrates frontend
+                                validation. Actual complaint registration,
+                                file storage, and reference generation require
+                                backend and database integration.
+                            </p>
+                        </div>
+
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear"></span> ComTrack. All rights reserved.
+                </p>
+
+                <p>Making complaint management more transparent.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // MOBILE NAVIGATION
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const navActions = document.querySelector(".nav-actions");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = navLinks.classList.toggle("open");
+
+            navActions.classList.toggle("open", isOpen);
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        // FOOTER YEAR
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+        // DESCRIPTION CHARACTER COUNTER
+        const description = document.getElementById("description");
+        const characterCount = document.getElementById("characterCount");
+
+        description.addEventListener("input", function () {
+            characterCount.textContent = description.value.length;
+        });
+
+        // FILE VALIDATION
+        const evidenceInput = document.getElementById("evidence");
+        const fileList = document.getElementById("fileList");
+        const maxFileSize = 5 * 1024 * 1024;
+
+        evidenceInput.addEventListener("change", function () {
+            const files = Array.from(evidenceInput.files);
+
+            fileList.style.color = "#687386";
+
+            if (files.length === 0) {
+                fileList.textContent = "No files selected.";
+                return;
+            }
+
+            const invalidFile = files.find(function (file) {
+                return file.size > maxFileSize;
+            });
+
+            if (invalidFile) {
+                fileList.textContent =
+                    invalidFile.name + " exceeds the 5 MB limit.";
+
+                fileList.style.color = "#a32828";
+                evidenceInput.value = "";
+                return;
+            }
+
+            fileList.textContent = files.map(function (file) {
+                return file.name;
+            }).join(", ");
+        });
+
+        // RESET FORM FEEDBACK
+        const complaintForm = document.getElementById("complaintForm");
+        const formMessage = document.getElementById("formMessage");
+
+        complaintForm.addEventListener("reset", function () {
+            setTimeout(function () {
+                formMessage.className = "form-message";
+                formMessage.textContent = "";
+                characterCount.textContent = "0";
+                fileList.textContent = "No files selected.";
+                fileList.style.color = "#687386";
+            }, 0);
+        });
+
+        // FRONTEND DEMONSTRATION SUBMISSION
+        complaintForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            formMessage.className = "form-message";
+            formMessage.textContent = "";
+
+            const files = Array.from(evidenceInput.files);
+            const invalidFile = files.find(function (file) {
+                return file.size > maxFileSize;
+            });
+
+            if (invalidFile) {
+                formMessage.className = "form-message error";
+                formMessage.textContent =
+                    "One or more files exceed the 5 MB size limit.";
+                return;
+            }
+
+            const descriptionText = description.value.trim();
+
+            if (descriptionText.length < 20) {
+                formMessage.className = "form-message error";
+                formMessage.textContent =
+                    "Please provide at least 20 characters in the description.";
+                description.focus();
+                return;
+            }
+
+            /*
+             * This is a frontend prototype.
+             * The form does not save data to a server or database yet.
+             */
+            formMessage.className = "form-message success";
+            formMessage.textContent =
+                "Form validation successful! This is a frontend demo, so your complaint has not been saved. Backend integration is required for actual registration and reference number generation.";
+
+            formMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        });
+    </script>
+
+</body>
+</html>

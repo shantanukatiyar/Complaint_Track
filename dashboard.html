@@ -1,0 +1,1221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ComTrack complaint management dashboard">
+    <title>Dashboard | ComTrack</title>
+
+    <style>
+        :root {
+            --primary: #2457d6;
+            --primary-dark: #1743b2;
+            --primary-light: #edf3ff;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e4e9f2;
+            --surface: #f6f8fc;
+            --white: #ffffff;
+            --green: #168244;
+            --orange: #b7791f;
+            --red: #c24141;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--surface);
+            color: var(--text);
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            width: 245px;
+            padding: 25px 17px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 8px;
+            margin-bottom: 40px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 21px;
+        }
+
+        .nav-label {
+            margin: 0 10px 13px;
+            color: #929bad;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+        }
+
+        .side-nav {
+            display: grid;
+            gap: 7px;
+        }
+
+        .side-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 12px;
+            border-radius: 9px;
+            color: #596579;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background .2s, color .2s;
+        }
+
+        .side-link:hover {
+            background: var(--surface);
+            color: var(--primary);
+        }
+
+        .side-link.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .side-icon {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            font-size: 18px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .help-card {
+            padding: 17px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f9faff;
+        }
+
+        .help-card strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .help-card p {
+            margin-bottom: 14px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .help-card a {
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .sidebar-footer {
+            margin-top: 20px;
+            padding: 0 5px;
+            color: #8a94a5;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        /* MAIN */
+        .main {
+            min-width: 0;
+            flex: 1;
+            margin-left: 245px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 75px;
+            padding: 15px 35px;
+            background: rgba(255,255,255,.96);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .menu-button {
+            display: none;
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .topbar h1 {
+            font-size: 20px;
+            letter-spacing: -.4px;
+        }
+
+        .topbar-subtitle {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-link {
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .topbar-link.primary {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .content {
+            width: min(1450px, 100%);
+            margin: 0 auto;
+            padding: 30px 35px 45px;
+        }
+
+        .welcome-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .welcome-row h2 {
+            margin-bottom: 9px;
+            font-size: 24px;
+            letter-spacing: -.6px;
+        }
+
+        .welcome-row p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .date-label {
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: #566176;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        /* STATISTICS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 27px;
+        }
+
+        .stat-card {
+            min-width: 0;
+            padding: 21px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31,59,112,.05);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 19px;
+        }
+
+        .stat-title {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            display: grid;
+            place-items: center;
+            width: 37px;
+            height: 37px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .stat-icon.orange {
+            background: #fff4df;
+            color: var(--orange);
+        }
+
+        .stat-icon.green {
+            background: #e8f7ed;
+            color: var(--green);
+        }
+
+        .stat-icon.purple {
+            background: #f1ebff;
+            color: #7952c7;
+        }
+
+        .stat-value {
+            margin-bottom: 8px;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .stat-description {
+            color: #8a94a5;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* QUICK ACTIONS */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .section-heading h3 {
+            font-size: 16px;
+        }
+
+        .section-heading p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .quick-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 19px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-2px);
+            border-color: #b7c9ff;
+        }
+
+        .quick-icon {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 11px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .quick-card strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .quick-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* TABLE */
+        .table-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .table-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 13px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-toolbar h3 {
+            font-size: 15px;
+        }
+
+        .table-toolbar p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .filters input,
+        .filters select {
+            min-width: 140px;
+            padding: 10px 11px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: var(--primary);
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background: #fafbfe;
+        }
+
+        th {
+            padding: 14px 18px;
+            color: #7a8598;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 18px;
+            border-top: 1px solid #edf0f5;
+            color: #465168;
+            font-size: 11px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fbfcff;
+        }
+
+        .reference {
+            color: var(--primary);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .subject {
+            max-width: 210px;
+            color: var(--text);
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .muted-cell {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 30px;
+            background: #fff4df;
+            color: #96630d;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status.in-progress {
+            background: #edf3ff;
+            color: var(--primary);
+        }
+
+        .status.resolved {
+            background: #e8f7ed;
+            color: var(--green);
+        }
+
+        .status.rejected {
+            background: #fff0f0;
+            color: var(--red);
+        }
+
+        .priority {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .priority.high,
+        .priority.urgent {
+            color: var(--red);
+        }
+
+        .priority.medium {
+            color: var(--orange);
+        }
+
+        .priority.low {
+            color: var(--green);
+        }
+
+        .track-link {
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .empty-table {
+            padding: 42px 20px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .empty-table strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .empty-table a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 11px 15px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .table-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .refresh-button {
+            padding: 8px 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: white;
+            color: var(--text);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .refresh-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .notice {
+            margin-top: 22px;
+            padding: 15px 17px;
+            border: 1px solid #dce7ff;
+            border-radius: 10px;
+            background: #f0f5ff;
+            color: #445777;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .notice strong {
+            color: var(--primary-dark);
+        }
+
+        .page-footer {
+            margin-top: 28px;
+            color: #929bad;
+            font-size: 10px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+        .sidebar-overlay {
+            display: none;
+        }
+
+        @media (max-width: 1200px) {
+            .content { padding: 27px 24px 40px; }
+            .topbar { padding: 15px 24px; }
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .stat-card { padding: 18px; }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease;
+                box-shadow: 10px 0 30px rgba(20,30,55,.08);
+            }
+
+            .sidebar.open { transform: translateX(0); }
+
+            .sidebar-overlay.open {
+                position: fixed;
+                inset: 0;
+                z-index: 15;
+                display: block;
+                background: rgba(15,23,42,.35);
+            }
+
+            .main { margin-left: 0; }
+            .menu-button { display: inline-block; }
+            .quick-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .topbar h1 { font-size: 17px; }
+            .topbar-subtitle { max-width: 220px; line-height: 1.6; }
+            .topbar-actions { flex-direction: column; align-items: stretch; }
+            .topbar-link { padding: 9px; font-size: 10px; text-align: center; }
+            .content { padding: 23px 15px 35px; }
+            .welcome-row { flex-direction: column; }
+            .welcome-row h2 { font-size: 22px; }
+            .date-label { white-space: normal; }
+            .stats-grid { gap: 11px; }
+            .stat-card { padding: 15px; }
+            .stat-value { font-size: 25px; }
+            .stat-top { align-items: flex-start; flex-direction: column-reverse; }
+            .stat-title { line-height: 1.5; }
+            .table-toolbar { align-items: stretch; flex-direction: column; }
+            .filters { flex-direction: column; }
+            .filters input, .filters select { width: 100%; }
+            .table-footer { align-items: flex-start; flex-direction: column; }
+        }
+
+        @media (max-width: 360px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .topbar-actions { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">C</span>
+                <span>ComTrack</span>
+            </a>
+
+            <p class="nav-label">Workspace</p>
+
+            <nav class="side-nav" aria-label="Dashboard navigation">
+                <a href="dashboard.html" class="side-link active">
+                    <span class="side-icon">▦</span>
+                    Dashboard
+                </a>
+                <a href="#complaints" class="side-link">
+                    <span class="side-icon">☷</span>
+                    All Complaints
+                </a>
+                <a href="submit.html" class="side-link">
+                    <span class="side-icon">＋</span>
+                    Submit Complaint
+                </a>
+                <a href="track.html" class="side-link">
+                    <span class="side-icon">⌕</span>
+                    Track Complaint
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="help-card">
+                    <strong>Need assistance?</strong>
+                    <p>Have an issue to report? Register a complaint and keep its reference ID safe.</p>
+                    <a href="submit.html">Create a complaint →</a>
+                </div>
+
+                <div class="sidebar-footer">
+                    ComTrack Frontend Prototype<br>
+                    © <span id="sidebarYear"></span> ComTrack
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button
+                        class="menu-button"
+                        id="menuButton"
+                        type="button"
+                        aria-label="Open navigation"
+                        aria-expanded="false"
+                    >☰</button>
+
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="topbar-subtitle">Complaint Management Overview</p>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+                    <a href="track.html" class="topbar-link">Track Complaint</a>
+                    <a href="submit.html" class="topbar-link primary">＋ New Complaint</a>
+                </div>
+            </header>
+
+            <div class="content">
+                <section class="welcome-row">
+                    <div>
+                        <h2>Welcome to ComTrack 👋</h2>
+                        <p>Monitor complaint activity and review the latest submissions.</p>
+                    </div>
+                    <div class="date-label" id="todayDate"></div>
+                </section>
+
+                <section class="stats-grid" aria-label="Complaint statistics">
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-title">Total Complaints</span>
+                            <span class="stat-icon">☷</span>
+                        </div>
+                        <div class="stat-value" id="totalCount">0</div>
+                        <div class="stat-description">All complaints saved in this browser</div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-title">Submitted</span>
+                            <span class="stat-icon orange">◷</span>
+                        </div>
+                        <div class="stat-value" id="submittedCount">0</div>
+                        <div class="stat-description">Awaiting further processing</div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-title">In Progress</span>
+                            <span class="stat-icon purple">↻</span>
+                        </div>
+                        <div class="stat-value" id="progressCount">0</div>
+                        <div class="stat-description">Being reviewed or addressed</div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-title">Resolved</span>
+                            <span class="stat-icon green">✓</span>
+                        </div>
+                        <div class="stat-value" id="resolvedCount">0</div>
+                        <div class="stat-description">Marked as resolved</div>
+                    </article>
+                </section>
+
+                <section>
+                    <div class="section-heading">
+                        <div>
+                            <h3>Quick Actions</h3>
+                            <p>Navigate to the tools you need.</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-grid">
+                        <a href="submit.html" class="quick-card">
+                            <span class="quick-icon">＋</span>
+                            <div>
+                                <strong>Submit Complaint</strong>
+                                <span>Report a new issue</span>
+                            </div>
+                        </a>
+
+                        <a href="track.html" class="quick-card">
+                            <span class="quick-icon">⌕</span>
+                            <div>
+                                <strong>Track a Complaint</strong>
+                                <span>Check a reference ID</span>
+                            </div>
+                        </a>
+
+                        <a href="how-it-works.html" class="quick-card">
+                            <span class="quick-icon">ⓘ</span>
+                            <div>
+                                <strong>How It Works</strong>
+                                <span>Learn about the process</span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <section id="complaints">
+                    <div class="section-heading">
+                        <div>
+                            <h3>Recent Complaints</h3>
+                            <p>Review and search complaints saved in this browser.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-toolbar">
+                            <div>
+                                <h3>Complaint Records</h3>
+                                <p id="recordSummary">Loading complaint records...</p>
+                            </div>
+
+                            <div class="filters">
+                                <input
+                                    type="search"
+                                    id="searchInput"
+                                    placeholder="Search ID or subject..."
+                                    aria-label="Search complaints"
+                                >
+
+                                <select id="statusFilter" aria-label="Filter by status">
+                                    <option value="all">All statuses</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="progress">In Progress</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>REFERENCE ID</th>
+                                        <th>COMPLAINT</th>
+                                        <th>DATE</th>
+                                        <th>PRIORITY</th>
+                                        <th>STATUS</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="complaintsBody"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-footer">
+                            <span id="resultCount">Showing 0 complaints</span>
+                            <button class="refresh-button" id="refreshButton" type="button">
+                                ↻ Refresh data
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="notice">
+                    <strong>Prototype notice:</strong>
+                    This dashboard reads complaint data from your browser's
+                    <code>localStorage</code>. It is not connected to a server,
+                    government department, or shared database. Records created
+                    in another browser or device will not appear here.
+                </div>
+
+                <footer class="page-footer">
+                    © <span id="footerYear"></span> ComTrack · Complaint Management Prototype
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        "use strict";
+
+        const STORAGE_KEY = "comtrackComplaints";
+
+        const sidebar = document.getElementById("sidebar");
+        const menuButton = document.getElementById("menuButton");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
+        const complaintsBody = document.getElementById("complaintsBody");
+        const searchInput = document.getElementById("searchInput");
+        const statusFilter = document.getElementById("statusFilter");
+
+        let complaints = [];
+
+        // Dates and footer
+        const now = new Date();
+        document.getElementById("todayDate").textContent =
+            now.toLocaleDateString("en-IN", {
+                weekday: "short",
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            });
+
+        document.getElementById("sidebarYear").textContent = now.getFullYear();
+        document.getElementById("footerYear").textContent = now.getFullYear();
+
+        // Mobile sidebar
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            sidebarOverlay.classList.remove("open");
+            menuButton.setAttribute("aria-expanded", "false");
+        }
+
+        menuButton.addEventListener("click", function () {
+            const isOpen = sidebar.classList.toggle("open");
+            sidebarOverlay.classList.toggle("open", isOpen);
+            menuButton.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        sidebarOverlay.addEventListener("click", closeSidebar);
+
+        document.querySelectorAll(".side-link").forEach(function (link) {
+            link.addEventListener("click", closeSidebar);
+        });
+
+        // Read browser storage safely.
+        function readComplaints() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+
+                if (!stored) {
+                    complaints = [];
+                    return;
+                }
+
+                const parsed = JSON.parse(stored);
+                complaints = Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                complaints = [];
+                console.error("Could not read complaint records:", error);
+            }
+        }
+
+        function getStatus(complaint) {
+            return String(complaint.status || "Submitted").trim();
+        }
+
+        function normalizedStatus(status) {
+            const value = status.toLowerCase();
+
+            if (value.includes("resolv") || value.includes("closed")) {
+                return "resolved";
+            }
+
+            if (value.includes("reject")) {
+                return "rejected";
+            }
+
+            if (
+                value.includes("progress") ||
+                value.includes("review") ||
+                value.includes("assigned") ||
+                value.includes("investigat")
+            ) {
+                return "progress";
+            }
+
+            return "submitted";
+        }
+
+        function updateStatistics() {
+            const total = complaints.length;
+
+            const submitted = complaints.filter(function (complaint) {
+                return normalizedStatus(getStatus(complaint)) === "submitted";
+            }).length;
+
+            const progress = complaints.filter(function (complaint) {
+                return normalizedStatus(getStatus(complaint)) === "progress";
+            }).length;
+
+            const resolved = complaints.filter(function (complaint) {
+                return normalizedStatus(getStatus(complaint)) === "resolved";
+            }).length;
+
+            document.getElementById("totalCount").textContent = total;
+            document.getElementById("submittedCount").textContent = submitted;
+            document.getElementById("progressCount").textContent = progress;
+            document.getElementById("resolvedCount").textContent = resolved;
+
+            document.getElementById("recordSummary").textContent =
+                total === 1
+                    ? "1 complaint stored in this browser"
+                    : total + " complaints stored in this browser";
+        }
+
+        function formatDate(value) {
+            if (!value) return "—";
+
+            const date = new Date(value);
+
+            if (Number.isNaN(date.getTime())) return "—";
+
+            return date.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, function (char) {
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                };
+
+                return entities[char];
+            });
+        }
+
+        function statusClass(status) {
+            const type = normalizedStatus(status);
+
+            if (type === "resolved") return "resolved";
+            if (type === "progress") return "in-progress";
+            if (type === "rejected") return "rejected";
+
+            return "";
+        }
+
+        function priorityClass(priority) {
+            const value = String(priority || "Normal").toLowerCase();
+
+            if (value.includes("urgent")) return "urgent";
+            if (value.includes("high")) return "high";
+            if (value.includes("medium")) return "medium";
+            if (value.includes("low")) return "low";
+
+            return "";
+        }
+
+        function matchesStatusFilter(complaint, filter) {
+            if (filter === "all") return true;
+            return normalizedStatus(getStatus(complaint)) === filter;
+        }
+
+        function renderComplaints() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedStatus = statusFilter.value;
+
+            const filtered = complaints
+                .filter(function (complaint) {
+                    const searchable = [
+                        complaint.referenceId,
+                        complaint.subject,
+                        complaint.category,
+                        complaint.location
+                    ].join(" ").toLowerCase();
+
+                    return searchable.includes(query) &&
+                        matchesStatusFilter(complaint, selectedStatus);
+                })
+                .sort(function (a, b) {
+                    return new Date(b.createdAt || 0) -
+                        new Date(a.createdAt || 0);
+                });
+
+            document.getElementById("resultCount").textContent =
+                "Showing " + filtered.length + " of " +
+                complaints.length + " complaints";
+
+            if (filtered.length === 0) {
+                complaintsBody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-table">
+                                <strong>No complaints found</strong>
+                                ${
+                                    complaints.length === 0
+                                        ? "Submit your first complaint to see its record here."
+                                        : "Try changing your search term or status filter."
+                                }
+                                ${
+                                    complaints.length === 0
+                                        ? '<a href="submit.html">Submit a complaint</a>'
+                                        : ""
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            complaintsBody.innerHTML = filtered.map(function (complaint) {
+                const reference = String(complaint.referenceId || "");
+                const subject = complaint.subject || "Untitled complaint";
+                const category = complaint.category || "Uncategorized";
+                const priority = complaint.priority || "Normal";
+                const status = getStatus(complaint);
+
+                const trackUrl = "track.html?ref=" +
+                    encodeURIComponent(reference);
+
+                return `
+                    <tr>
+                        <td>
+                            <span class="reference">${escapeHTML(reference || "No ID")}</span>
+                        </td>
+                        <td>
+                            <div class="subject">${escapeHTML(subject)}</div>
+                            <div class="muted-cell">${escapeHTML(category)}</div>
+                        </td>
+                        <td>${escapeHTML(formatDate(complaint.createdAt))}</td>
+                        <td>
+                            <span class="priority ${priorityClass(priority)}">
+                                ${escapeHTML(priority)}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status ${statusClass(status)}">
+                                ${escapeHTML(status)}
+                            </span>
+                        </td>
+                        <td>
+                            <a class="track-link" href="${trackUrl}">Track →</a>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function refreshDashboard() {
+            readComplaints();
+            updateStatistics();
+            renderComplaints();
+        }
+
+        searchInput.addEventListener("input", renderComplaints);
+        statusFilter.addEventListener("change", renderComplaints);
+
+        document.getElementById("refreshButton").addEventListener(
+            "click",
+            refreshDashboard
+        );
+
+        // Update if another same-origin tab changes complaint storage.
+        window.addEventListener("storage", function (event) {
+            if (event.key === STORAGE_KEY || event.key === null) {
+                refreshDashboard();
+            }
+        });
+
+        refreshDashboard();
+    </script>
+</body>
+</html>
